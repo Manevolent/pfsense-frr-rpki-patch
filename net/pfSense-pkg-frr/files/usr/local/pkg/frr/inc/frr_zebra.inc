@@ -335,6 +335,16 @@ function frr_zebra_generate_routemaps() {
 		    ($rm['exitaction'] != "none")) {
 			$rmconf .= "  on-match goto {$rm['exitaction']}\n";
 		}
+		
+		/* RPKI */
+		switch ($rm['rpki_result']) {
+			case "invalid":
+			case "notfound":
+			case "valid":
+				$rmconf .= "  match rpki {$rm['rpki_result']}\n";
+				break;
+			default:
+		}
 
 		/* Access List */
 		if (in_array($rm['acl_match'], frr_get_list_values(frr_get_accesslist_list())) &&

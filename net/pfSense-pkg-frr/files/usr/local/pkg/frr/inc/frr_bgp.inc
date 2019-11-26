@@ -120,6 +120,49 @@ function frr_get_neighbor_updatesource($source, $type) {
 	return "";
 }
 
+/* Generate BGP RPKI lines */
+function frr_bgp_generate_rpki() {
+	global $config, $frr_config_base;
+	/* Populate FRR BGP Advanced Settings */
+	if (is_array($config['installedpackages']['frrbgpadvanced']['config'])) {
+		$frr_bgpadv_conf = &$config['installedpackages']['frrbgpadvanced']['config'][0];
+	} else {
+		/* No BGP Advanced config, stop. */
+		return null;
+	}
+	
+	if (empty($frr_bgpadv_conf['enablerpki'])) {
+		return null;
+	}
+	
+	$rpkiconf = "# RPKI Config\n";
+	if (!empty($frr_bgpadv_conf['rpkilog'])) {
+		$rpkiconf .= "debug rpki\n";
+	}
+	
+	/* Populate RPKI Settings */
+	$rpkiconf .= "rpki\n";
+	if (!empty($frr_bgpadv_conf['rpkipollingperiod'])) {
+		$rpkiconf .= "  rpki polling_period {$frr_bgpadv_conf['rpkipollingperiod']}\n";
+	}
+	if (!empty($frr_bgpadv_conf['rpkitimeout'])) {
+		$rpkiconf .= "  rpki timeout {$frr_bgpadv_conf['rpkitimeout']}\n";
+	}
+	if (is_array($config['installedpackages']['frrbgpcacheservers']['config'])) {
+		$frr_cacheservers_conf = &$config['installedpackages']['frrbgpcacheservers']['config'];
+		foreach ($frr_cacheservers_conf as $cacheserver) {
+			if (empty($frr_bgpadv_conf['sshenable'])) {
+				$rpkiconf .= "  rpki cache {$cacheserver['host']} {$cacheserver['port']} preference {$cacheserver['preference']}\n";
+			} else {
+				$rpkiconf .= "  rpki cache {$cacheserver['host']} {$cacheserver['port']} {$cacheserver['sshusername']} {$cacheserver['port']} {$cacheserver['sshprivatekey']} {$cacheserver['sshpublickey']} preference {$cacheserver['preference']}\n";
+			}
+		}
+	}
+	$rpkiconf .= "  exit\n";
+
+	return $rpkiconf;
+}
+
 /* Generate BGP Router configuration lines */
 function frr_bgp_generate_router() {
 	global $config, $frr_config_base;
@@ -855,6 +898,8 @@ function frr_generate_config_bgp() {
 			$bgpdconffile .= "log syslog\n";
 		}
 
+		/* BGP RPKI Config */
+		$bgpdconffile .= frr_bgp_generate_rpki();
 		/* BGP Router Config */
 		$bgpdconffile .= frr_bgp_generate_router();
 		/* BGP Router Advanced Config */

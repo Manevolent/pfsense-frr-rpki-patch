@@ -28,6 +28,7 @@ $priv_list['page-services-frr']['match'] = array();
 $priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_bgp_advanced.xml*";
 $priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_bgp_aspaths.xml*";
 $priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_bgp_communities.xml*";
+$priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_bgp_cacheservers.xml*";
 $priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_bgp_neighbors.xml*";
 $priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_bgp.xml*";
 $priv_list['page-services-frr']['match'][] = "pkg_edit.php?xml=frr/frr_global_acls.xml*";

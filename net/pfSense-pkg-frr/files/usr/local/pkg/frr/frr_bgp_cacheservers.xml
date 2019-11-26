@@ -5,7 +5,7 @@
 	<copyright>
 	<![CDATA[
 /*
- * frr_bgp_aspaths.xml
+ * frr_bgp_communities.xml
  *
  * part of pfSense (https://www.pfsense.org)
  * Copyright (c) 2012-2015 Rubicon Communications, LLC (Netgate)
@@ -25,10 +25,10 @@
  */
 	]]>
 	</copyright>
-	<name>frr_bgp_aspaths</name>
+	<name>frr_bgp_cacheservers</name>
 	<title>Services/FRR/BGP</title>
 	<include_file>/usr/local/pkg/frr.inc</include_file>
-	<aftersaveredirect>pkg.php?xml=frr/frr_bgp_aspaths.xml</aftersaveredirect>
+	<aftersaveredirect>pkg.php?xml=frr/frr_bgp_cacheservers.xml</aftersaveredirect>
 	<tabs>
 		<tab>
 			<text>BGP</text>
@@ -45,7 +45,6 @@
 		<tab>
 			<text>AS Paths</text>
 			<url>pkg.php?xml=frr/frr_bgp_aspaths.xml</url>
-			<active/>
 		</tab>
 		<tab>
 			<text>Communities</text>
@@ -54,6 +53,7 @@
 		<tab>
 			<text>Cache Servers</text>
 			<url>pkg.php?xml=frr/frr_bgp_cacheservers.xml</url>
+			<active/>
 		</tab>
 		<tab>
 			<text>[Global Settings]</text>
@@ -78,6 +78,10 @@
 			<fieldname>name</fieldname>
 		</columnitem>
 		<columnitem>
+			<fielddescr>Host</fielddescr>
+			<fieldname>host</fieldname>
+		</columnitem>
+		<columnitem>
 			<fielddescr>Description</fielddescr>
 			<fieldname>descr</fieldname>
 		</columnitem>
@@ -88,7 +92,7 @@
 			<fieldname>name</fieldname>
 			<description>
 				<![CDATA[
-				The name of this AS Path List.
+				The name of this RPKI cache server.
 				]]>
 			</description>
 			<type>input</type>
@@ -102,53 +106,85 @@
 			<type>input</type>
 		</field>
 		<field>
-			<fielddescr></fielddescr>
+			<fielddescr>Host</fielddescr>
+			<fieldname>host</fieldname>
 			<description>
 				<![CDATA[
-				AS Path entries determine if networks are allowed or denied in specific contexts used in BGP route maps.
-				<br/><br/>
-				Order is important. Use the sequence field to reorder entries after saving.
-				<br/><br/>
-				The regular expression will match on the AS number and is surrounded by underscores (e.g. "_65534_"). Use "^" to match any.
+				The host or IP address for this cache server.
 				]]>
 			</description>
-			<type>info</type>
+			<size>50</size>
+			<type>input</type>
+			<combinefields>begin</combinefields>
 		</field>
 		<field>
-			<fielddescr>AS Path Entres</fielddescr>
-			<fieldname>none</fieldname>
-			<type>rowhelper</type>
-			<rowhelper>
-				<rowhelperfield>
-					<fielddescr>Sequence</fielddescr>
-					<fieldname>seq</fieldname>
-					<type>input</type>
-					<size>5</size>
-				</rowhelperfield>
-				<rowhelperfield>
-					<fielddescr>Action</fielddescr>
-					<fieldname>action</fieldname>
-					<description>Permit or deny access to a network.</description>
-					<type>select</type>
-					<default_value>Deny</default_value>
-					<options>
-						<option><name>Deny</name><value>deny</value></option>
-						<option><name>Permit</name><value>permit</value></option>
-					</options>
-				</rowhelperfield>
-				<rowhelperfield>
-					<fielddescr>Regular Expression</fielddescr>
-					<fieldname>regex</fieldname>
-					<type>input</type>
-					<size>25</size>
-				</rowhelperfield>
-			</rowhelper>
+			<fielddescr>Port</fielddescr>
+			<fieldname>port</fieldname>
+			<description>
+				<![CDATA[
+				The port for this cache server.
+				]]>
+			</description>
+			<size>6</size>
+			<type>input</type>
+			<combinefields>end</combinefields>
+		</field>
+		<field>
+			<fielddescr>Preference</fielddescr>
+			<fieldname>preference</fieldname>
+			<description>
+				<![CDATA[
+				The internal preference for this cache server. Lower preference cache servers are queried first.
+				]]>
+			</description>
+			<size>6</size>
+			<type>input</type>
+		</field>
+		<field>
+			<name>SSH</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>Enable</fielddescr>
+			<fieldname>sshenable</fieldname>
+			<description>Connect as SSH client</description>
+			<type>checkbox</type>
+		</field>
+		<field>
+			<fielddescr>Username</fielddescr>
+			<fieldname>sshusername</fieldname>
+			<description>
+				<![CDATA[
+				The username to use when authenticating via SSH.
+				]]>
+			</description>
+			<size>100</size>
+			<type>input</type>
+		</field>
+		<field>
+			<fielddescr>Public Key File</fielddescr>
+			<fieldname>sshpublickey</fieldname>
+			<description>
+				<![CDATA[
+				The public key path for the SSH channel (e.g. id_rsa.pub).
+				]]>
+			</description>
+			<size>100</size>
+			<type>input</type>
+		</field>
+		<field>
+			<fielddescr>Private Key File</fielddescr>
+			<fieldname>sshprivatekey</fieldname>
+			<description>
+				<![CDATA[
+				The private key path for the SSH channel (e.g. id_rsa).
+				]]>
+			</description>
+			<size>100</size>
+			<type>input</type>
 		</field>
 	</fields>
 	<custom_php_resync_config_command>
 		frr_generate_config();
 	</custom_php_resync_config_command>
-	<custom_php_validation_command>
-		frr_bgp_aspaths_validate_input();
-	</custom_php_validation_command>
 </packagegui>

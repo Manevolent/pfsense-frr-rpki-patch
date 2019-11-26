@@ -352,7 +352,7 @@ fi
 [ -s {$frr_config_base}/staticd.conf ] && /usr/local/sbin/staticd -d -f {$frr_config_base}/staticd.conf
 [ -s {$frr_config_base}/ospfd.conf ] && /usr/local/sbin/ospfd -d -f {$frr_config_base}/ospfd.conf
 [ -s {$frr_config_base}/ospf6d.conf ] && /usr/local/sbin/ospf6d -d -f {$frr_config_base}/ospf6d.conf
-[ -s {$frr_config_base}/bgpd.conf ] && /usr/local/sbin/bgpd -d -f {$frr_config_base}/bgpd.conf
+[ -s {$frr_config_base}/bgpd.conf ] && /usr/local/sbin/bgpd -d -f {$frr_config_base}/bgpd.conf -M rpki
 [ -s {$frr_config_base}/frr_md5pw_add.conf ] && /sbin/setkey -f {$frr_config_base}/frr_md5pw_add.conf
 
 EOF;
