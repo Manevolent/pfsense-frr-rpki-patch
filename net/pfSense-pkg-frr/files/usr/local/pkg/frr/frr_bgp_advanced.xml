@@ -396,6 +396,35 @@
 			<description>Number of packets to write to peer socket per run (1-10000)</description>
 			<type>input</type>
 		</field>
+
+		<field>
+			<name>RPKI</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>Enable RPKI</fielddescr>
+			<fieldname>enablerpki</fieldname>
+			<description>Enable RPKI functionality in BGP.</description>
+			<type>checkbox</type>
+		</field>
+		<field>
+			<fielddescr>Log RPKI Events</fielddescr>
+			<fieldname>rpkilog</fieldname>
+			<description>Enable RPKI debug logging in the BGPD output.</description>
+			<type>checkbox</type>
+		</field>
+		<field>
+			<fielddescr>Polling Period</fielddescr>
+			<fieldname>rpkipollingperiod</fieldname>
+			<description>Cache server polling period, in seconds</description>
+			<type>input</type>
+		</field>
+		<field>
+			<fielddescr>Timeout</fielddescr>
+			<fieldname>rpkitimeout</fieldname>
+			<description>Cache server poll timeout, in seconds</description>
+			<type>input</type>
+		</field>
 	</fields>
 	<custom_php_resync_config_command>
 		frr_generate_config();
