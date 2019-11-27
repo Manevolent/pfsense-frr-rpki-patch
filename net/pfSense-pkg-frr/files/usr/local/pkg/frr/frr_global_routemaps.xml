@@ -449,6 +449,23 @@
 			</options>
 		</field>
 		<field>
+			<name>BGP RPKI</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>Match Result</fielddescr>
+			<fieldname>rpki_result</fieldname>
+			<description>Match a specific BGP RPKI result</description>
+			<type>select</type>
+			<default_value>none</default_value>
+			<options>
+				<option><name>None (Do Nothing)</name><value>none</value></option>
+				<option><name>Invalid</name><value>invalid</value></option>
+				<option><name>Not Found</name><value>notfound</value></option>
+				<option><name>Valid</name><value>valid</value></option>
+			</options>
+		</field>
+		<field>
 			<name>Source Protocol</name>
 			<type>listtopic</type>
 		</field>
